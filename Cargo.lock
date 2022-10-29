@@ -938,6 +938,7 @@ dependencies = [
  "env_logger",
  "log",
  "oci-spec",
+ "serde",
 ]
 
 [[package]]
