@@ -14,9 +14,9 @@ async fn main() -> std::io::Result<()> {
                 middleware::DefaultHeaders::new()
                     .add(("Docker-Distribution-Api-Version", "registry/2.0")),
             )
-            .service(routes::home)
-            .service(routes::v2_redirect)
-            .service(routes::v2)
+            .service(routes::root::home)
+            .service(routes::root::v2_redirect)
+            .service(routes::root::v2)
     })
     .bind(("127.0.0.1", 8080))?
     .run()
