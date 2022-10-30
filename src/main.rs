@@ -1,6 +1,7 @@
-use actix_web::{middleware, App, HttpServer};
+use actix_web::{middleware, web, App, HttpServer};
 
-mod routes;
+mod base;
+mod push;
 
 #[actix_web::main] // or #[tokio::main]
 async fn main() -> std::io::Result<()> {
@@ -14,9 +15,10 @@ async fn main() -> std::io::Result<()> {
                 middleware::DefaultHeaders::new()
                     .add(("Docker-Distribution-Api-Version", "registry/2.0")),
             )
-            .service(routes::root::home)
-            .service(routes::root::v2_redirect)
-            .service(routes::root::v2)
+            .service(base::home)
+            .service(base::v2_redirect)
+            .service(base::v2)
+            .service(web::scope("/v2").service(push::pre_upload))
     })
     .bind(("127.0.0.1", 8080))?
     .run()
